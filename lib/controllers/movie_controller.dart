@@ -4,7 +4,8 @@ import 'package:movie_app/constants/movie_exports.dart';
 class MovieController extends ChangeNotifier {
   bool loading = false;
   dynamic exception;
-  List<Movie> movies = [];
+  List<Movie> popularMovies = [];
+  List<Movie> trendingMovies = [];
 
   void fetchPopularMovies() async {
     if (loading == false) {
@@ -12,9 +13,26 @@ class MovieController extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      movies = [];
+      popularMovies = [];
       List<Movie> results = await MovieRepository.getPopularMovies();
-      movies.addAll(results);
+      popularMovies.addAll(results);
+    } catch (e) {
+      exception = e;
+    }
+
+    loading = false;
+    notifyListeners();
+  }
+
+  void fetchTrendingMovies() async {
+    if (loading == false) {
+      loading = true;
+      notifyListeners();
+    }
+    try {
+      trendingMovies = [];
+      List<Movie> results = await MovieRepository.getTrendingMovies();
+      trendingMovies.addAll(results);
     } catch (e) {
       exception = e;
     }

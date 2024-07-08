@@ -13,6 +13,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     movieController.fetchPopularMovies();
+    movieController.fetchTrendingMovies();
     super.initState();
   }
 
@@ -100,7 +101,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     model.loading
                         ? const LoadingWidget()
-                        : MoviesList(movies: model.movies),
+                        : MoviesList(movies: model.popularMovies),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Text(
+                      DefaultStrings.trending,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: fontSize20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    model.loading
+                        ? const LoadingWidget()
+                        : MoviesList(movies: model.trendingMovies),
                   ],
                 ),
               ),
