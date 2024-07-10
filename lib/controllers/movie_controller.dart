@@ -6,6 +6,7 @@ class MovieController extends ChangeNotifier {
   dynamic exception;
   List<Movie> popularMovies = [];
   List<Movie> trendingMovies = [];
+  Movie? movie;
 
   void fetchPopularMovies() async {
     if (loading == false) {
@@ -33,6 +34,21 @@ class MovieController extends ChangeNotifier {
       trendingMovies = [];
       List<Movie> results = await MovieRepository.getTrendingMovies();
       trendingMovies.addAll(results);
+    } catch (e) {
+      exception = e;
+    }
+
+    loading = false;
+    notifyListeners();
+  }
+
+  void fetchMovieDetails(movieId) async {
+    if (loading == false) {
+      loading = true;
+      notifyListeners();
+    }
+    try {
+      movie = await MovieRepository.getMovieDetails(movieId);
     } catch (e) {
       exception = e;
     }
